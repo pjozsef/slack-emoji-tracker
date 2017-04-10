@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.model
+package com.github.pjozsef.slack.emoji.tracker.model
 
 object EventBusAddress {
     val USER_UPDATE = "/user/update"

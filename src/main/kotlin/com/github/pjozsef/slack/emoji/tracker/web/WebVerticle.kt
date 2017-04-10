@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.web
+package com.github.pjozsef.slack.emoji.tracker.web
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.logging.LoggerFactory

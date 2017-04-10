@@ -1,4 +1,4 @@
-group 'com.github.pjozsef.slack.mention'
+group 'com.github.pjozsef.slack.emoji.tracker'
 version '0.1.0'
 
 buildscript {
@@ -16,14 +16,15 @@ buildscript {
     }
 }
 
+apply plugin: 'org.junit.platform.gradle.plugin'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'groovy'
 apply plugin: 'kotlin'
-apply plugin: 'org.junit.platform.gradle.plugin'
 
 junitPlatform {
+    platformVersion = "1.0.0-M2"
     filters {
         engines {
             include 'spek'
@@ -34,14 +35,11 @@ junitPlatform {
 sourceCompatibility = 1.8
 
 mainClassName = 'io.vertx.core.Launcher'
-def mainVerticleName = 'com.github.pjozsef.slack.DeployVerticle'
+def mainVerticleName = 'com.github.pjozsef.slack.emoji.tracker.DeployVerticle'
 
 repositories {
-    mavenCentral()
     jcenter()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "http://dl.bintray.com/jetbrains/spek" }
 }
 
@@ -61,6 +59,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'org.jetbrains.spek:spek-api:1.1.0'
+
     testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.0'
 }
 

@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.model
+package com.github.pjozsef.slack.emoji.tracker.model
 
 data class UserInfo(val user: String, val emojis: MutableMap<String, Int> = mutableMapOf()) {
     companion object {

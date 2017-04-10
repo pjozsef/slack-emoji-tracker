@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention
+package com.github.pjozsef.slack.emoji.tracker
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.github.pjozsef.slack.mention.model.UserInfo

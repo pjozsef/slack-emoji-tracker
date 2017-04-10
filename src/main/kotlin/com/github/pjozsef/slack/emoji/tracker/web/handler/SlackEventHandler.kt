@@ -1,15 +1,13 @@
-package com.github.pjozsef.slack.mention.web.handler
+package com.github.pjozsef.slack.emoji.tracker.web.handler
 
-import com.github.pjozsef.slack.mention.model.EventBusAddress
-import com.github.pjozsef.slack.mention.model.UserInfo
-import com.github.pjozsef.slack.mention.model.UserUpdateMessage
-import com.github.pjozsef.slack.mention.util.asJsonObject
-import com.github.pjozsef.slack.mention.util.asObject
-import com.github.pjozsef.slack.mention.util.handleAsyncResult
+import com.github.pjozsef.slack.emoji.tracker.model.EventBusAddress
+import com.github.pjozsef.slack.emoji.tracker.model.UserInfo
+import com.github.pjozsef.slack.emoji.tracker.model.UserUpdateMessage
+import com.github.pjozsef.slack.emoji.tracker.util.asJsonObject
+import com.github.pjozsef.slack.emoji.tracker.util.asObject
+import com.github.pjozsef.slack.emoji.tracker.util.handleAsyncResult
 import io.vertx.core.Handler
 import io.vertx.core.Vertx
-import io.vertx.core.eventbus.EventBus
-import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.ext.web.RoutingContext

@@ -1,7 +1,7 @@
-package com.github.pjozsef.slack.mention
+package com.github.pjozsef.slack.emoji.tracker
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.github.pjozsef.slack.mention.web.WebVerticle
+import com.github.pjozsef.slack.emoji.tracker.web.WebVerticle
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.Json
 

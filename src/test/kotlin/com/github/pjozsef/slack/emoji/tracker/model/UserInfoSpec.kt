@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.model
+package com.github.pjozsef.slack.emoji.tracker.model
 
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given

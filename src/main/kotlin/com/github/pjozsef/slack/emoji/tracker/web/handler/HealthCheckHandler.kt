@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.web.handler
+package com.github.pjozsef.slack.emoji.tracker.web.handler
 
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext

@@ -1,7 +1,7 @@
-package com.github.pjozsef.slack.mention.web
+package com.github.pjozsef.slack.emoji.tracker.web
 
-import com.github.pjozsef.slack.mention.web.handler.HealthCheckHandler
-import com.github.pjozsef.slack.mention.web.handler.SlackEventHandler
+import com.github.pjozsef.slack.emoji.tracker.web.handler.HealthCheckHandler
+import com.github.pjozsef.slack.emoji.tracker.web.handler.SlackEventHandler
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory

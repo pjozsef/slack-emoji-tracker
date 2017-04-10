@@ -1,4 +1,4 @@
-package com.github.pjozsef.slack.mention.util
+package com.github.pjozsef.slack.emoji.tracker.util
 
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
