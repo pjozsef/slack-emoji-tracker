@@ -13,13 +13,13 @@ class WebRouter {
     val log = LoggerFactory.getLogger(this::class.java)
 
     companion object {
-        fun create(vertx: Vertx): Router = WebRouter().create(vertx)
+        fun create(vertx: Vertx, config: JsonObject): Router = WebRouter().create(vertx, config)
     }
 
-    fun create(vertx: Vertx) = Router.router(vertx).apply {
+    fun create(vertx: Vertx, config: JsonObject) = Router.router(vertx).apply {
         route("/*").handler(LoggerHandler.create())
         post("/*").handler(BodyHandler.create())
         get("/healthcheck").handler(HealthCheckHandler())
-        post("/slack/:team").handler(SlackEventHandler(vertx))
+        post("/slack/:team").handler(SlackEventHandler(vertx, config.getString("slack.webhookurl")))
     }
 }

@@ -13,13 +13,12 @@ import io.vertx.core.logging.LoggerFactory
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.client.WebClient
 
-class SlackEventHandler(vertx: Vertx) : Handler<RoutingContext> {
+class SlackEventHandler(val vertx: Vertx, val webhookURL: String) : Handler<RoutingContext> {
     val eb = vertx.eventBus()
     val log = LoggerFactory.getLogger(this::class.java)
     val client = WebClient.create(vertx)
 
     override fun handle(ctx: RoutingContext) {
-
         if (ctx.bodyAsJson.containsKey("challenge")) {
             handleVerification(ctx)
         } else {
@@ -43,13 +42,17 @@ class SlackEventHandler(vertx: Vertx) : Handler<RoutingContext> {
         if (!event.containsKey("bot_id")) {
             val text = event.getString("text")
             UserInfo.of(text)?.let { userInfo ->
-                val message = UserUpdateMessage(team, userInfo).asJsonObject()
-                eb.send<JsonObject>(EventBusAddress.USER_UPDATE, message) { result ->
+                val jsonMessage = UserUpdateMessage(team, userInfo).asJsonObject()
+                eb.send<JsonObject>(EventBusAddress.USER_UPDATE, jsonMessage) { result ->
                     handleAsyncResult(result, log) { message ->
                         val updatedUserInfo = message.body().asObject<UserInfo>()
                         val replyText = updatedUserInfo.user + " has " + updatedUserInfo.emojis.map { (key, value) -> "$key: $value" }.joinToString(", ")
                         val payload = JsonObject().put("text", replyText)
-
+                        client.post(443, "hooks.slack.com", webhookURL)
+                                .ssl(true)
+                                .sendJsonObject(payload) { result ->
+                                    handleAsyncResult(result, log)
+                                }
                     }
                 }
             }

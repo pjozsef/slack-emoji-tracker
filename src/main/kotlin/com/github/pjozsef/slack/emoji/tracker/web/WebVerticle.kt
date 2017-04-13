@@ -9,7 +9,7 @@ class WebVerticle : AbstractVerticle() {
 
     override fun start() {
         vertx.createHttpServer()
-                .requestHandler { WebRouter.create(vertx).accept(it) }
+                .requestHandler { WebRouter.create(vertx, config()).accept(it) }
                 .listen(config().getInteger("http.port", 9000))
     }
 }
