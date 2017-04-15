@@ -20,6 +20,6 @@ class WebRouter {
         route("/*").handler(LoggerHandler.create())
         post("/*").handler(BodyHandler.create())
         get("/healthcheck").handler(HealthCheckHandler())
-        post("/slack/:team").handler(SlackEventHandler(vertx, config.getString("slack.webhookurl")))
+        post("/slack/:team").handler(SlackEventHandler(vertx, config.getString("webhook")))
     }
 }
