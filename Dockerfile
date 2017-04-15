@@ -1,6 +1,8 @@
 FROM vertx/vertx3-alpine
 LABEL package=com.github.pjozsef.slack.emoji.tracker
 
+RUN apk update && apk add sudo
+
 ENV VERTICLE_HOME /usr/verticles
 COPY build/libs $VERTICLE_HOME
 
