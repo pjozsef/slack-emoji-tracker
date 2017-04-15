@@ -4,7 +4,7 @@ import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 
 fun Any.asJsonObject(): JsonObject
-        = Json.mapper.convertValue(this, JsonObject::class.java)
+        = JsonObject.mapFrom(this)
 
-inline fun <reified T> Any.asObject(): T
+inline fun <reified T> JsonObject.asObject(): T
         = Json.mapper.convertValue(this, T::class.java)
