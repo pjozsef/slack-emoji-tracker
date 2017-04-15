@@ -1,0 +1,7 @@
+task dockerBuild(type: Exec) {
+    dependsOn 'clean'
+    dependsOn 'shadowJar'
+    tasks.findByName('shadowJar').mustRunAfter 'clean'
+    println rootProject.ext.main_verticle
+    commandLine 'docker', 'build', '--build-arg', "MAIN_VERTICLE=$rootProject.ext.main_verticle", '-t', "$rootProject.name:$rootProject.version", '.'
+}
