@@ -1,9 +1,12 @@
 package com.github.pjozsef.slack.emoji.tracker.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class UserInfo(val user: String, val emojis: MutableMap<String, Int> = mutableMapOf()) {
     companion object {
         private val userRegex = Regex("^(<@\\w+>).*!$")
-        private val emojiRegex = Regex(":[_\\w]+:")
+        private val emojiRegex = Regex(":[_\\-\\w]+:")
 
         fun of(text: String): UserInfo? {
             userRegex.find(text)?.groups?.get(1)?.value?.let { username ->
