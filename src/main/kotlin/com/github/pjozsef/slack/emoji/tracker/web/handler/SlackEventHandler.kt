@@ -13,7 +13,7 @@ import io.vertx.core.logging.LoggerFactory
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.client.WebClient
 
-class SlackEventHandler(val vertx: Vertx, val webhook: String) : Handler<RoutingContext> {
+class SlackEventHandler(val vertx: Vertx, val config: JsonObject) : Handler<RoutingContext> {
     val eb = vertx.eventBus()
     val log = LoggerFactory.getLogger(this::class.java)
     val client = WebClient.create(vertx)
@@ -34,30 +34,34 @@ class SlackEventHandler(val vertx: Vertx, val webhook: String) : Handler<Routing
 
     private fun handleEvent(ctx: RoutingContext) {
         val team = ctx.pathParam("team")
-        val body = ctx.bodyAsJson
-        log.info(body.encodePrettily())
-        ctx.response().end()
+        config.getString(team)?.let { webhook ->
+            val body = ctx.bodyAsJson
+            log.info(body.encodePrettily())
+            ctx.response().end()
 
-        val event = body.getJsonObject("event")
-        if (!event.containsKey("bot_id")) {
-            val text = event.getString("text")
-            UserInfo.of(text)?.let { userInfo ->
-                if(userInfo.emojis.isNotEmpty()){
-                    val jsonMessage = UserUpdateMessage(team, userInfo).asJsonObject()
-                    eb.send<JsonObject>(EventBusAddress.USER_UPDATE, jsonMessage) { result ->
-                        handleAsyncResult(result, log) { message ->
-                            val updatedUserInfo = message.body().asObject<UserInfo>()
-                            val replyText = makeReplyText(updatedUserInfo)
-                            val payload = JsonObject().put("text", replyText)
-                            client.post(443, "hooks.slack.com", webhook)
-                                    .ssl(true)
-                                    .sendJsonObject(payload) { result ->
-                                        handleAsyncResult(result, log)
-                                    }
+            val event = body.getJsonObject("event")
+            if (!event.containsKey("bot_id")) {
+                val text = event.getString("text")
+                UserInfo.of(text)?.let { userInfo ->
+                    if(userInfo.emojis.isNotEmpty()){
+                        val jsonMessage = UserUpdateMessage(team, userInfo).asJsonObject()
+                        eb.send<JsonObject>(EventBusAddress.USER_UPDATE, jsonMessage) { result ->
+                            handleAsyncResult(result, log) { message ->
+                                val updatedUserInfo = message.body().asObject<UserInfo>()
+                                val replyText = makeReplyText(updatedUserInfo)
+                                val payload = JsonObject().put("text", replyText)
+                                client.post(443, "hooks.slack.com", webhook)
+                                        .ssl(true)
+                                        .sendJsonObject(payload) { result ->
+                                            handleAsyncResult(result, log)
+                                        }
+                            }
                         }
                     }
                 }
             }
+        } ?: let {
+            log.warn("Unconfigured team: $team")
         }
     }
 
