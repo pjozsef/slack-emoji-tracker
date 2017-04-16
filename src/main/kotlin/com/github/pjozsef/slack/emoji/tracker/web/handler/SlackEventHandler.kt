@@ -40,7 +40,7 @@ class SlackEventHandler(val vertx: Vertx, val config: JsonObject) : Handler<Rout
             ctx.response().end()
 
             val event = body.getJsonObject("event")
-            if (!event.containsKey("bot_id")) {
+            if (!event.containsKey("bot_id") && event.getString("text") != null) {
                 val text = event.getString("text")
                 UserInfo.of(text)?.let { userInfo ->
                     if(userInfo.emojis.isNotEmpty()){
