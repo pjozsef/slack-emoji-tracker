@@ -1,0 +1,13 @@
+{
+  "web": {
+    "port" : 666,
+    "slack" : {
+      "team1": "/services/slack-webhook1",
+      "team2": "/services/slack-webhook2"
+    }
+  },
+  "data": {
+    "mongo.db": "dbname",
+    "mongo.url": "mongodb://url"
+  }
+}
