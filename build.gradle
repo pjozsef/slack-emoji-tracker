@@ -41,6 +41,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
 
+    compile 'com.diabolicallabs:vertx-cron:3.3.0'
+
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7"
 
     compile 'org.codehaus.groovy:groovy-all:2.3.11'

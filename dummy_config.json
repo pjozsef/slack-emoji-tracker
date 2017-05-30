@@ -9,5 +9,10 @@
   "data": {
     "mongo.db": "dbname",
     "mongo.url": "mongodb://url"
+  },
+  "pairschedule": {
+    "token": "/services/slack-webhook3",
+    "address_base": "pairschedule",
+    "members": "Alice,Bob,Eve"
   }
 }
