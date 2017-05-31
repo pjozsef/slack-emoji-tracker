@@ -36,7 +36,6 @@ class SlackEventHandler(val vertx: Vertx, val config: JsonObject) : Handler<Rout
         val team = ctx.pathParam("team")
         config.getString(team)?.let { webhook ->
             val body = ctx.bodyAsJson
-            log.info(body.encodePrettily())
             ctx.response().end()
 
             val event = body.getJsonObject("event")
@@ -44,6 +43,7 @@ class SlackEventHandler(val vertx: Vertx, val config: JsonObject) : Handler<Rout
                 val text = event.getString("text")
                 UserInfo.of(text)?.let { userInfo ->
                     if(userInfo.emojis.isNotEmpty()){
+                        log.info("New emojis ${userInfo.emojis} for ${userInfo.user}")
                         val jsonMessage = UserUpdateMessage(team, userInfo).asJsonObject()
                         eb.send<JsonObject>(EventBusAddress.USER_UPDATE, jsonMessage) { result ->
                             handleAsyncResult(result, log) { message ->

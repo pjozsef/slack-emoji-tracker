@@ -24,6 +24,7 @@ class PairScheduleVerticle : AbstractVerticle() {
 
     private fun subscribeToCron(eb: EventBus, teamString: String, client: WebClient, log: Logger) {
         eb.consumer<Any?>("pairschedule.action") {
+            log.info("Cron job triggered")
             val team = teamString.split(",").toMutableList()
             Collections.shuffle(team)
 
@@ -58,7 +59,7 @@ class PairScheduleVerticle : AbstractVerticle() {
         }
         eb.send<Any>("pairschedule.schedule", message) {
             handleAsyncResult(it, log) {
-                log.info(it.body())
+                log.info("Cron subscription: ${it.body()}")
             }
         }
     }
