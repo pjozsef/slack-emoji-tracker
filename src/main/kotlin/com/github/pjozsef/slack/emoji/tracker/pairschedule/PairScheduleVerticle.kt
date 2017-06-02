@@ -20,6 +20,7 @@ class PairScheduleVerticle : AbstractVerticle() {
         subscribeToCron(eb, teamString, client, log)
         scheduleMorning(eb, log)
         scheduleAfternoon(eb, log)
+        scheduleWithTimezone("0 30 9 ? * MON-FRI *", eb, log)
     }
 
     private fun subscribeToCron(eb: EventBus, teamString: String, client: WebClient, log: Logger) {
@@ -43,7 +44,7 @@ class PairScheduleVerticle : AbstractVerticle() {
     }
 
     private fun scheduleMorning(eb: EventBus, log: Logger) {
-        schedule("0 30 9 ? * MON-FRI *", eb, log)
+        schedule("0 31 7 ? * MON-FRI *", eb, log)
     }
 
     private fun scheduleAfternoon(eb: EventBus, log: Logger) {
@@ -56,6 +57,23 @@ class PairScheduleVerticle : AbstractVerticle() {
             "address" to "pairschedule.action"
             "repeat" to true
             "action" to "send"
+
+        }
+        eb.send<Any>("pairschedule.schedule", message) {
+            handleAsyncResult(it, log) {
+                log.info("Cron subscription: ${it.body()}")
+            }
+        }
+    }
+
+    private fun scheduleWithTimezone(cron: String, eb: EventBus, log: Logger) {
+        val message = json {
+            "cron_expression" to cron
+            "address" to "pairschedule.action"
+            "repeat" to true
+            "action" to "send"
+            "timezone_name" to "Etc/GMT+2"
+
         }
         eb.send<Any>("pairschedule.schedule", message) {
             handleAsyncResult(it, log) {
