@@ -36,7 +36,6 @@ class SlackEventHandler(val vertx: Vertx, val config: JsonObject) : Handler<Rout
         val team = ctx.pathParam("team")
         config.getString(team)?.let { webhook ->
             val body = ctx.bodyAsJson
-            log.info(body.encodePrettily())
             ctx.response().end()
 
             val event = body.getJsonObject("event")
